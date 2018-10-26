@@ -1,20 +1,26 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import math
 
 # https://machinelearningmastery.com/implement-perceptron-algorithm-scratch-python/
 # inputs = dendrites
 # outputs = axon
 BIAS = 1
 LR = 0.1
-EPOCHS = 50
-EPOCH_SHOW = 5
+EPOCHS = 500
+EPOCH_SHOW = 20
+
+
+# https://towardsdatascience.com/multi-layer-neural-networks-with-sigmoid-function-deep-learning-for-rookies-2-bf464f09eb7f
+def sigmoid(x):
+    return 1 / (1 + math.exp(-x))
 
 
 def predict(inputs, weights):
     activation = 0
     for i in range(0, inputs.size):
         activation += weights[i] * inputs[i]
-    return 1.0 if activation >= 0.0 else 0.0
+    return sigmoid(activation)
 
 
 # Estimate perceptron weights using stochastic gradient descent
@@ -37,6 +43,10 @@ def train(data, labels, l_rate, n_epoch):
             prediction = predict(inputs, weights)
             error = label[0] - prediction
             sum_error += error**2
+            """
+            print("Expected={0}, Predicted={1}, Error={2}".format(
+                label[0], prediction, error))
+            """
             """
             Update weights
             w_i(t+1) = w_i(t) + r*(d_j - y_j(t))*x_i_j
