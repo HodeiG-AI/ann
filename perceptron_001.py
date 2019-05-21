@@ -1,18 +1,6 @@
 import numpy as np
-#  import matplotlib.pyplot as plt
-
-# https://machinelearningmastery.com/implement-perceptron-algorithm-scratch-python/
-# inputs = dendrites
-# outputs = axon
-BIAS = 1
-
-
-def predict(inputs, weights):
-    # As the bias value will be
-    activation = 0
-    for i in range(0, inputs.size):
-        activation += weights[i] * inputs[i]
-    return 1.0 if activation >= 0.0 else 0.0
+from perceptron import Perceptron
+from activation_functions import binary_step
 
 
 if __name__ == "__main__":
@@ -36,15 +24,5 @@ if __name__ == "__main__":
            [1.],
            [1.]])
     """
-    # Get the number of inputs plus extra one for bias
-    inputs_number = data.shape[1] + 1
-
-    # Create random weights for main inputs and bias
-    # https://machinelearningmastery.com/why-initialize-a-neural-network-with-random-weights/
-    weights = np.random.randn(inputs_number)
-
-    for input_i in range(0, labels.size):
-        inputs = np.insert(data[input_i], 0, BIAS)
-        prediction = predict(inputs, weights)
-        print("Expected={0}, Predicted={1}".format(
-            labels[input_i], prediction))
+    perceptron = Perceptron(data, labels, binary_step)
+    perceptron.predict()
