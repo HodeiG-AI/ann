@@ -1,6 +1,7 @@
 import numpy as np
 from perceptron import Perceptron
 from activation_functions import binary_step
+from utils import plot_2d
 
 
 if __name__ == "__main__":
@@ -26,3 +27,4 @@ if __name__ == "__main__":
     """
     perceptron = Perceptron(data, labels, binary_step)
     perceptron.predict()
+    plot_2d(data, labels, perceptron.weights)

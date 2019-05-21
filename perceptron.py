@@ -67,3 +67,35 @@ class Perceptron:
             prediction = self._row_predict(row)
             print("Expected={0}, Predicted={1}".format(
                 self.labels[input_i], prediction))
+
+    def train(self, l_rate, n_epoch, epoch_show=5):
+        """
+        Estimate perceptron weights using stochastic gradient descent It uses
+        online learning: the learning mode where the model update is performed
+        each time a single observation is received.  This is different to
+        "batch learning", where the model update is performed after observing
+        the entire training set
+        """
+        for epoch in range(n_epoch):
+            sum_error = 0.0
+            for row, label in zip(self.data, self.labels):
+                prediction = self._row_predict(row)
+                error = label[0] - prediction
+                sum_error += error**2
+                """
+                Update weights
+                w_i(t+1) = w_i(t) + r*(d_j - y_j(t))*x_i_j
+
+                w: weight
+                r: learning rate
+                d: desired output (label)
+                y: perceptron output
+                x: input
+                """
+                self.weights[0] += l_rate * error
+                for i in range(row.size):
+                    self.weights[i+1] += l_rate * error * row[i]
+            # Print just every epoch_show
+            if (epoch + 1) % epoch_show == 0:
+                print(">epoch={0}, lrate={1:.2f}, error={2:.2f}, weights={3}".
+                      format(epoch, l_rate, sum_error, self.weights))
